@@ -23,7 +23,7 @@
   
 ## Assignment 1:
     
-  pollutantmean <- function(directory, pollutant, id) {
+  pollutantmean <- function(directory, pollutant, id = 1:332) {
    z<-as.numeric(length(id))
    sumTotal <-0
    obsTotal <-0
@@ -42,8 +42,11 @@
       obs<-as.numeric(length(files[,p][! is.na(files[,p])]))
       obsTotal<-obsTotal + obs
   }
+  options(digits=4)
   meanPollutant<-sumTotal/obsTotal
   meanPollutant
   }
   
   pollutantmean("specdata", "sulfate", 1:10)
+  pollutantmean("specdata", "nitrate", 70:72)
+  pollutantmean("specdata", "nitrate", 23)
