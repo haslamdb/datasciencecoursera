@@ -20,3 +20,30 @@
     }
     means
   }
+  
+## Assignment 1:
+    
+  pollutantmean <- function(directory, pollutant, id) {
+   z<-as.numeric(length(id))
+   sumTotal <-0
+   obsTotal <-0
+   site<-0
+   sumPollutant<-0
+   meanPollutant<-0
+   p<-ifelse(pollutant=="sulfate", 2,
+             (ifelse(pollutant=="nitrate", 3, "Error")))
+      for (i in 1:z) {
+        site<-sprintf("%03d", id[i])
+        filepath<-paste(directory, site, sep="/")
+        filename<-paste(filepath, ".csv", sep="")
+        files<-read.csv(filename)
+      sumPollutant<- as.numeric(colSums(files[p], na.rm=TRUE))
+      sumTotal<-sumTotal+ sumPollutant
+      obs<-as.numeric(length(files[,p][! is.na(files[,p])]))
+      obsTotal<-obsTotal + obs
+  }
+  meanPollutant<-sumTotal/obsTotal
+  meanPollutant
+  }
+  
+  pollutantmean("specdata", "sulfate", 1:10)
