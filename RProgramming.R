@@ -19,6 +19,7 @@
       means[i]<-mean(df[ ,i], na.rm = naremove)
     }
     means
+<<<<<<< HEAD
   }
   
 ## Assignment 1:
@@ -50,3 +51,6 @@
   pollutantmean("specdata", "sulfate", 1:10)
   pollutantmean("specdata", "nitrate", 70:72)
   pollutantmean("specdata", "nitrate", 23)
+=======
+  }
+>>>>>>> parent of 182a01c... R programming assignment 1
