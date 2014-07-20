@@ -1,38 +1,3 @@
-.Rproj.user
-.Rhistory
-.RData
-exdata_data_household_power_consumption/household_power_consumption.txt
-household_power_consumption.txt
-.httr-oauth
-UCI HAR Dataset/README.txt
-UCI HAR Dataset/activity_labels.txt
-UCI HAR Dataset/features.txt
-UCI HAR Dataset/features_info.txt
-UCI HAR Dataset/test/Inertial Signals/body_acc_x_test.txt
-UCI HAR Dataset/test/Inertial Signals/body_acc_y_test.txt
-UCI HAR Dataset/test/Inertial Signals/body_acc_z_test.txt
-UCI HAR Dataset/test/Inertial Signals/body_gyro_x_test.txt
-UCI HAR Dataset/test/Inertial Signals/body_gyro_y_test.txt
-UCI HAR Dataset/test/Inertial Signals/body_gyro_z_test.txt
-UCI HAR Dataset/test/Inertial Signals/total_acc_x_test.txt
-UCI HAR Dataset/test/Inertial Signals/total_acc_y_test.txt
-UCI HAR Dataset/test/Inertial Signals/total_acc_z_test.txt
-UCI HAR Dataset/test/X_test.txt
-UCI HAR Dataset/test/subject_test.txt
-UCI HAR Dataset/test/y_test.txt
-UCI HAR Dataset/train/Inertial Signals/body_acc_x_train.txt
-UCI HAR Dataset/train/Inertial Signals/body_acc_y_train.txt
-UCI HAR Dataset/train/Inertial Signals/body_acc_z_train.txt
-UCI HAR Dataset/train/Inertial Signals/body_gyro_x_train.txt
-UCI HAR Dataset/train/Inertial Signals/body_gyro_y_train.txt
-UCI HAR Dataset/train/Inertial Signals/body_gyro_z_train.txt
-UCI HAR Dataset/train/Inertial Signals/total_acc_x_train.txt
-UCI HAR Dataset/train/Inertial Signals/total_acc_y_train.txt
-UCI HAR Dataset/train/Inertial Signals/total_acc_z_train.txt
-UCI HAR Dataset/train/X_train.txt
-UCI HAR Dataset/train/subject_train.txt
-UCI HAR Dataset/train/y_train.txt
-getdata_data_ss06pid.csv
 specdata/001.csv
 specdata/002.csv
 specdata/003.csv
@@ -365,4 +330,37 @@ specdata/329.csv
 specdata/330.csv
 specdata/331.csv
 specdata/332.csv
-rprog_data_specdata.zip
+Exercises/corr-1-output.txt
+Exercises/corr-2-output.txt
+Exercises/corr-3-output.txt
+Exercises/getdata_data_DATA.gov_NGAP.xlsx
+Exercises/getdata_data_DATA.gov_NGAP.xlsx.xml
+Exercises/getdata_data_restaurants.xml
+Exercises/getdata_data_ss06hid.csv
+Exercises/hw1_data.csv
+Exercises/pollutantmean-1-output.txt
+Exercises/pollutantmean-2-output.txt
+Exercises/pollutantmean-3-output.txt
+Exercises/pollutantmean-4-output.txt
+Exercises/repdata_data_activity.zip
+Exercises/rprog-005_Basic_Building_Blocks.txt
+Exercises/rprog-005_Sequences_of_Numbers.txt
+Exercises/rprog-005_Vectors.txt
+Exercises/rprog_scripts_submitscript1.R
+activity.csv
+Exercises/Plot2.png
+Exercises/Plot3.R
+Exercises/Plot3.png
+Exercises/Plot4.R
+Exercises/Plot4.png
+Exercises/README.md
+Exercises/Rstudio.JPG
+Exercises/complete-1-output.txt
+Exercises/complete-2-output.txt
+Exercises/complete-3-output.txt
+Exercises/.gitignore
+Exercises/DT
+Exercises/HelloWorld.md
+Exercises/Plot1.R
+Exercises/Plot1.png
+Exercises/Plot2.R
