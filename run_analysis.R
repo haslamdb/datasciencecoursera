@@ -28,3 +28,28 @@ tags<-cbind(subject_test, y_test)
 for (i in 1:length(dataFiles)) {
   dataFiles[i]<-cbind(tags, dataFiles[i])
 }
+
+for (i in 1:length(filenames)) {
+  filenames[i]<-read.table(filenames[i], header=FALSE)
+}
+
+
+wd<-"C:/Users/David/Documents/Code/R/Projects/Coursera/UCI HAR Dataset/test/Inertial Signals"
+filenames <- list.files(wd) 
+
+for (i in 1:length(filenames2)) {
+filenames[[i]] <- read.table(filenames[[i]])
+
+}
+
+
+filenames2 <- list.files(wd, pattern="*.txt")
+ldf <- plyr::ldply(filenames2, read.table)
+res <- plyr::ldply(ldf, summary)
+names(res) <- substr(filenames2, 6, 30)
+
+
+
+do.call("rbind", lapply(filenames, read.table, header = FALSE)) 
+
+setwd(wd)
