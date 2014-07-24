@@ -16,7 +16,7 @@ library(reshape2)
   subject_test<-read.table("subject_test.txt")
   y_test<-read.table("y_test.txt")
   names(X_test)<- feature_names
-# Add rownames
+  # Add rownames
   test_tags<-cbind(subject_test, y_test)
   names(test_tags)<-c("Subject", "Label")
   X_test<-cbind(test_tags, X_test)
@@ -38,32 +38,18 @@ library(reshape2)
   AllX<-rbind(X_train_labeled, X_test_labeled)
   AllX<-AllX[,-1]
 
+#Get only columns from AllX with mean or std for each activity:
+  muStd<-c(grepl("-mean()", names(AllX)), grepl("-std()", names(AllX)))
+  AllXmuStd<-AllX[,names(AllX)[muStd]]
+  muS<-c(grepl("-mean()", names(AllX)))
+  Std<-c(grepl("-std()", names(AllX)))
+  AllXmu<-AllX[,names(AllX)[muS]]
+  AllXStd<-AllX[names(AllX)[Std]]
+  AllXmuStd <- cbind(AllXmu, AllXStd)
+  AllXmuStd<-cbind(AllX[,1:2], AllXmuStd)
 
 
-
-
-# setwd("C:/Users/HASI9S/Documents/Code/R/Projects/Coursera/UCI HAR Dataset/test/Inertial Signals")
-# 
-# body_acc_y_test<-read.table("body_acc_y_test.txt")
-# body_acc_x_test<-read.table("body_acc_x_test.txt")
-# body_acc_z_test<-read.table("body_acc_z_test.txt")
-# body_gyro_x_test<-read.table("body_gyro_x_test.txt")
-# body_gyro_y_test<-read.table("body_gyro_y_test.txt")
-# body_gyro_z_test<-read.table("body_gyro_z_test.txt")
-# total_acc_y_test<-read.table("total_acc_y_test.txt")
-# total_acc_x_test<-read.table("total_acc_x_test.txt")
-# total_acc_z_test<-read.table("total_acc_z_test.txt")
-# 
-# 
-# setwd("C:/Users/HASI9S/Documents/Code/R/Projects/Coursera/UCI HAR Dataset/train/Inertial Signals")
-# body_acc_y_train<-read.table("body_acc_y_train.txt")
-# body_acc_x_train<-read.table("body_acc_x_train.txt")
-# body_acc_z_train<-read.table("body_acc_z_train.txt")
-# body_gyro_x_train<-read.table("body_gyro_x_train.txt")
-# body_gyro_y_train<-read.table("body_gyro_y_train.txt")
-# body_gyro_z_train<-read.table("body_gyro_z_train.txt")
-# total_acc_y_train<-read.table("total_acc_y_train.txt")
-# total_acc_x_train<-read.table("total_acc_x_train.txt")
-# total_acc_z_train<-read.table("total_acc_z_train.txt")
-
+# Make a new tidy dataset with the average of each variable for each activity and each subject
+  MeanTable<-melt(AllX, id.var=c("Subject", "Activity"))
+  MeanTable<-dcast(test, Subject + Activity ~ variable , mean)
 
