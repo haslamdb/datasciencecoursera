@@ -1,0 +1,174 @@
+---
+title: "Effects of Weather Events on Public Health and Property Damage"
+output:
+  html_document:
+    fig_height: 8
+    fig_width: 8
+---
+
+
+## Synopsis
+This document reports the weather events that have the most effects on public health and property damage. The data comes from the  U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. To analyze health effects, the total number of fatalaties and total number of injuries are ranked from highest to lowest. The top 10 weather events were graphed for injuries and fatalities. Total health effects were calculated by adding fatalities plus injuries. The top 20 weather events causing effects on public health are presented. A similar approach was used to determine the top 10 weather events causing property and crop damage.
+
+This data shows that tornadoes have the greatest effect on fatalities, injuries and property damage. 
+
+## Data Processing
+The data was uncompressed using bunzip2 from the R.utils package. It was then loaded into R. To assess effects on public health, the data was filtered to include only fatalities and injuries. The data was aggregated then sorted by fatalities, injuries, or total effects. The top 10 or 20 were selected for graphical presentation. The R code for data analysis are presented below the graphical results.
+
+### R code for data processing health effects
+```{r}
+  library(R.utils)
+  library(reshape2)
+  library(ggplot2)
+  library(grid)
+  library(gridExtra)
+  options(rpubs.upload.method="internal")
+  
+# Uncompress and get data
+  #bunzip2("repdata_data_StormData.csv.bz2")
+  Data<-read.csv("repdata_data_StormData.csv")
+  Data$EVTYPE<- gsub("THUNDERSTORM WIND", "THUNDERSTORM",Data$EVTYPE)
+  Data$EVTYPE<- gsub("THUNDERSTORM WINDS", "THUNDERSTORM",Data$EVTYPE)
+
+#Aggregate inuries and fatalities by event type
+  healthEffects<- melt(Data[,c(8,23,24)], id.var="EVTYPE")
+  healthEffects<-aggregate(value ~ EVTYPE + variable, data=healthEffects, sum, na.rm=TRUE)
+  healthEffects<-healthEffects[order(-healthEffects$value),]
+  healthEffects<-dcast(healthEffects, EVTYPE ~ variable, sum)
+  healthEffects<-healthEffects[order(-healthEffects$FATALITIES, -healthEffects$INJURIES),]
+  healthEffects$TOTAL<- apply(healthEffects[, c("FATALITIES","INJURIES")], 1,sum)
+  names(healthEffects)<-c("Event", "Fatalities", "Injuries", "Total")
+  
+# Get top causes of fatalities, injuries, and combined
+  Fatalities<-healthEffects[,c(1,2)]
+  Fatalities<-Fatalities[order(-Fatalities$Fatalities),]
+  Fatalities<-Fatalities[1:10,]
+  Injuries<-  Injuries<-healthEffects[,c(1,3)]
+  Injuries<-Injuries[order(-Injuries$Injuries),]
+  Injuries<-Injuries[1:10,]
+  Total <-  Total<-healthEffects[,c(1,4)]
+  Total <-Total [order(-Total$Total),]
+  Total<-Total[1:20,]
+
+# Get ordered list of events to arrange data on graph  
+  fatalLevels <-Fatalities$Event
+  injurLevels<-Injuries$Event
+  totalLevels<- Total$Event
+  
+```
+
+
+### R code for data processing health effects
+```{r}
+#Aggregate property damage and crop damage by event type
+  econCons<- melt(Data[,c(8,25,27)], id.var="EVTYPE")
+  econCons<-aggregate(value ~ EVTYPE + variable, data=econCons, sum)
+  econCons<-econCons[order(-econCons$value),]
+  econCons<-dcast(econCons, EVTYPE ~ variable, sum)
+  econCons<-econCons[order(-econCons$PROPDMG, -econCons$CROPDMG),]
+  econCons$TOTAL<- apply(econCons[, c("PROPDMG","CROPDMG")], 1,sum)
+  names(econCons)<-c("Event", "Property", "Crop", "Both")
+  
+  # Get top 10 causes of Property, Crop, and combined
+  Property<-econCons[,c(1,2)]
+  Property<-Property[order(-Property$Property),]
+  Property<-Property[1:10,]
+  Crop<-  Crop<-econCons[,c(1,3)]
+  Crop<-Crop[order(-Crop$Crop),]
+  Crop<-Crop[1:10,]
+  Both <-  Both<-econCons[,c(1,4)]
+  Both <-Both [order(-Both$Both),]
+  Both<-Both[1:20,]
+  
+  # Get ordered list of events to arrange data on graph  
+  propLevels <-Property$Event
+  cropLevels<-Crop$Event
+  bothLevels<- Both$Event
+```
+
+
+### R code for making graphs and setting parameters
+This makes use of ggplot2, grid.extra packages
+```{r}
+ ### Data was prepared for data presentation with ggplot2 
+  params<- function(x){theme(axis.text.x= element_text(size= 8, , angle=45, vjust = 1, hjust= 1, color="black")) +
+    theme(axis.text.y = element_text(size= 8, color="black")) +
+    theme(plot.title = element_text(size= 14, color="black")) + 
+    theme(axis.title.x = element_text(size=8),axis.title.y  = element_text(size=12)) +
+    theme(legend.title = element_text(size=9)) +
+    theme(legend.text = element_text(size = 9))}
+    
+## Generate plots for health effects    
+# Plot number of fatalities by event type
+  plotFatalities <- ggplot(data=Fatalities, aes(x=factor(Event, levels = paste(fatalLevels)), y=Fatalities)) +                 
+  geom_bar(stat="identity", fill= "#990066", colour="black")  + ggtitle("Fatalities by Weather Event") +
+    xlab(NULL) + ylab("Number of Fatalities") + params(plotFatalities)
+
+# Plot number of injuries by event type  
+  plotInjuries <- ggplot(data=Injuries, aes(x=factor(Event, levels = paste(injurLevels)), y=Injuries)) +                  
+  geom_bar(stat="identity", fill= "#336699", color="black")  + ggtitle("Injuries by Weather Event") +
+    xlab(NULL) + ylab("Number of Injuries") + params(plotInjuries)
+  
+# Plot total number of effects by event type  
+  plotTotal <- ggplot(data=Total, aes(x=factor(Event, levels = paste(totalLevels)), y=Total)) +              
+  geom_bar(stat="identity", fill= "#006633", color="black")  + ggtitle("Total Health Effects by Weather Event") +
+    xlab(NULL) + ylab("Total Health Effects") + params(plotTotal)
+
+  # Plot amount of property damage by event type
+  plotProperty <- ggplot(data=Property, aes(x=factor(Event, levels = paste(propLevels)), y=Property)) +                 
+  geom_bar(stat="identity", fill= "#993333", colour="black")  + ggtitle("Property Damage by Weather Event") +
+    xlab(NULL) + ylab("Property Damage") + params(plotProperty)
+  
+  # Plot amount of Crop damage by event type
+  plotCrop <- ggplot(data=Crop, aes(x=factor(Event, levels = paste(cropLevels)), y=Crop)) +                
+  geom_bar(stat="identity", fill= "#CC9900", colour="black")  + ggtitle("Crop Damage by Weather Event") +
+  xlab(NULL) + ylab("Crop Damage") + params(plotCrop)
+  
+  plotBoth<-ggplot(data=Both, aes(x=factor(Event, levels= paste(bothLevels)), y= Both))+
+    geom_bar(stat="identity", fill= "#669933", colour="black")  + ggtitle("Total Economic Consequences by Weather Event") +
+    xlab(NULL) + ylab("Total Damage") + params(plotCrop)
+  
+        
+```
+
+
+## Results
+
+### Public Health effects of various weather events
+
+
+```{r, echo=FALSE}
+  # arrange Health Effects plots using grid.arrange package
+  grid.arrange(arrangeGrob(plotFatalities, plotInjuries, nrow=1),
+                 arrangeGrob(plotTotal, nrow=1),
+                 nrow=2)
+               
+```
+
+
+
+###Figure 1
+This figure demonstrates the health effects of various weather events. The top two panels demonstrate Fatalities and Injuries by weather events. The top ten weather events are listed in order from left to right. The bottom panel combines fatalities and injuries and lists the top 20 weather events causing health effects.
+
+
+
+
+
+
+
+### Economic consequences of various weather events
+
+
+```{r, echo=FALSE}
+  # arrange Properties Damage plots
+  grid.arrange(arrangeGrob(plotProperty, plotCrop, nrow=1),
+               arrangeGrob(plotBoth, nrow=1),
+               nrow=2)
+  
+```
+
+
+
+
+###Figure 2
+This figure demonstrates the economic consequences of various weather events. The top two panels demonstrate Property Damage and Crop Damage caused by weather events. The top ten weather events are listed. The bottom panel combines property and crop damage and lists the top 20 weather events causing total damage.
