@@ -1,0 +1,35 @@
+
+
+# Question 5. How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City? 
+
+#Get the data
+  NEI <- readRDS("summarySCC_PM25.rds")
+  SCC <- readRDS("Source_Classification_Code.rds")
+
+# Find the records that include motor vehicles
+  motor<-which(grepl("Motor", SCC$Short.Name))
+  vehicle<-which(grepl("Vehi", SCC$EI.Sector))
+  mv<-union(motor, vehicle)
+  mvKey<-SCC[mv,1]
+  
+  #Subset NEI dataframe by ccKey
+  mvYearly<-subset(NEI, NEI$SCC %in% mvKey)
+  
+  # Subset to Baltimore then aggregate emissions by year
+  mvBaltimore<-subset(mvYearly, mvYearly$fips=="24510")
+  mvBaltByYear<-aggregate(Emissions ~ year, data=mvBaltimore, sum)
+  
+
+  
+# Plot the data
+  plot(mvBaltByYear, type = "o", col="red", axes = FALSE, xlab="Year", ylab="Total Emissions", 
+       main="Total Emissions due to Motor Vehicles \n (1999 to 2008, Baltimore City)")
+  ticks<-seq(1999,2008, 3)
+  axis(1, at=ticks, labels=ticks)
+  axis(2)
+  box()
+  
+  
+# Save the plot
+  dev.copy(png,'plot5.png')
+  dev.off()

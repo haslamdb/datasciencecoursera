@@ -392,3 +392,14 @@ UCI HAR Dataset/train/Inertial Signals/total_acc_z_train.txt
 UCI HAR Dataset/train/X_train.txt
 UCI HAR Dataset/train/subject_train.txt
 UCI HAR Dataset/train/y_train.txt
+UCI HAR Dataset/features.csv
+UCI HAR Dataset/test/Inertial Signals/body_acc_x_test.csv
+UCI HAR Dataset/test/X_test.csv
+UCI HAR Dataset/test/subject_test.csv
+UCI HAR Dataset/test/y_test.csv
+getdata_data_EDSTATS_Country.csv
+getdata_data_GDP.csv
+getdata_data_ss06hid.csv
+getdata_jeff.jpg
+Source_Classification_Code.rds
+repdata_data_StormData.csv
